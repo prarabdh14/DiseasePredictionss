@@ -27,7 +27,7 @@ def predict_medical_term():
             return jsonify({"error": "Invalid input. Provide a list of predicted medical terms."}), 400
         
         try:
-            encoded_terms = encoder.transform(predicted_medical_term).reshape(-1, 1)  
+            encoded_terms = encoder.transform(predicted_medical_term)  
         except Exception as e:
             return jsonify({"error": f"Encoding failed: {str(e)}"}), 500
         
