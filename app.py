@@ -7,6 +7,7 @@ app = Flask(__name__)
 model1 = joblib.load('trained_model_symptom.pkl')  
 vectorizer = joblib.load('vectorizer_symptom.pkl')  
 model2 = joblib.load('disease_prediction_model.pkl')
+encoder=joblib.load('label_encoder.pkl')
 
 @app.route('/predict_diseasem', methods=['POST'])
 def predict_medical_term():
@@ -25,7 +26,12 @@ def predict_medical_term():
         if not isinstance(predicted_medical_term, list) or not predicted_medical_term:
             return jsonify({"error": "Invalid input. Provide a list of predicted medical terms."}), 400
         
-        diseases_prediction = model2.predict(predicted_medical_term)
+        try:
+            encoded_terms = encoder.transform(predicted_medical_term).reshape(-1, 1)  
+        except Exception as e:
+            return jsonify({"error": f"Encoding failed: {str(e)}"}), 500
+        
+        diseases_prediction = model2.predict(encoded_terms)
 
         return jsonify({
             "predicted_diseases": diseases_prediction.tolist()
