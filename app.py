@@ -45,7 +45,7 @@ def predict_medical_term():
         diseases_prediction = encoder.inverse_transform([encoded])[0]
 
         return jsonify({
-            "predicted_diseases": diseases_prediction.tolist()
+            "predicted_diseases": diseases_prediction
         })
     
     except Exception as e:
