@@ -14,26 +14,23 @@ def predict_medical_term():
     try:
         input_synonyms = request.get_json(force=True)  
         
-        if not isinstance(input_synonyms, list) or not input_synonyms:
+        if not isinstance(input_synonyms["symptoms"], list) or not input_synonyms["symptoms"]:
             return jsonify({"error": "Invalid input. Provide a list of synonyms."}), 400
         
-        input_vectorized = vectorizer.transform(input_synonyms)
+        prediction = []
         
-        prediction = model1.predict(input_vectorized)
+        for item in input_synonyms["symptoms"]:
+            vectorized = vectorizer.transform([item])
+            predict = model1.predict(vectorized)
+            prediction.append(predict)
+        #input_vectorized = vectorizer.transform(input_synonyms["symptoms"])
+        #prediction = model1.predict(input_vectorized)
+        #predicted_medical_term = prediction.tolist()
         
         #predicted_medical_term = prediction.tolist()
         
-        predicted_medical_term = []
-        
-        for symptom in prediction:
-            encoded = encoder.transform([symptom])
-            predicted_medical_term.append(encoded)
-        
-        if not isinstance(predicted_medical_term, list) or not predicted_medical_term:
-            return jsonify({"error": "Invalid input. Provide a list of predicted medical terms."}), 400
-        
         try:
-            encoded_terms = encoder.transform(predicted_medical_term)  
+            encoded_terms = encoder.transform(prediction)  
         except Exception as e:
             return jsonify({"error": f"Encoding failed: {str(e)}"}), 500
         
