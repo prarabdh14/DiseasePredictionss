@@ -21,7 +21,13 @@ def predict_medical_term():
         
         prediction = model1.predict(input_vectorized)
         
-        predicted_medical_term = prediction.tolist()
+        #predicted_medical_term = prediction.tolist()
+        
+        predicted_medical_term = []
+        
+        for symptom in prediction:
+            encoded = encoder.transform([symptom])
+            predicted_medical_term.append(encoded)
         
         if not isinstance(predicted_medical_term, list) or not predicted_medical_term:
             return jsonify({"error": "Invalid input. Provide a list of predicted medical terms."}), 400
