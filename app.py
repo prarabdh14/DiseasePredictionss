@@ -10,8 +10,8 @@ vectorizer = joblib.load('vectorizer_symptom.pkl')
 model2 = joblib.load('disease_prediction_model.pkl')
 encoder=joblib.load('label_encoder.pkl')
 
-@app.route('/predict_diseasem', methods=['POST'])
-def predict_medical_term():
+@app.route('/predict', methods=['POST'])
+def predict_disease():
     try:
         
         
