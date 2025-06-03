@@ -6,9 +6,9 @@ import numpy as np
 app = Flask(__name__)
 
 #model1 = joblib.load('trained_model_symptom.pkl')  
-vectorizer = joblib.load('/Users/prarabdhatrey/Desktop/DiseasePredictionss/disease/vectorizer_symptom.pkl')  
-model2 = joblib.load('/Users/prarabdhatrey/Desktop/DiseasePredictionss/disease/disease_prediction_model.pkl')
-encoder=joblib.load('/Users/prarabdhatrey/Desktop/DiseasePredictionss/disease/label_encoder.pkl')
+vectorizer = joblib.load('disease/vectorizer_symptom.pkl')  
+model2 = joblib.load('disease/disease_prediction_model.pkl')
+encoder=joblib.load('disease/label_encoder.pkl')
 
 @app.route('/predict', methods=['POST'])
 def predict_disease():
